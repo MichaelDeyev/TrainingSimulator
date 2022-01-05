@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
+    <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
+
+    <!-- Projects Table-->
+    <changeSet id="2" author="Mikhail Deyev">
+        <createTable tableName="projects">
+            <column name="id" type="${uuid_type}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--    Employees Table-->
+    <changeSet id="3" author="Mikhail Deyev">
+        <createTable tableName="employees">
+            <column name="id" type="${uuid_type}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--    Projects Employees relation Table-->
+    <changeSet id="4" author="Mikhail Deyev">
+        <createTable tableName="project_employee_relation">
+            <column name="employee_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="project_employee_relation" baseColumnNames="project_id"
+                                 constraintName="projects_relation" referencedTableName="projects"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="project_employee_relation" baseColumnNames="employee_id"
+                                 constraintName="employees_relation" referencedTableName="employees"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
