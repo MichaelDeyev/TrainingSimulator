@@ -9,52 +9,60 @@
     <property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
     <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
 
-    <!-- Projects Table-->
-    <changeSet id="2" author="Mikhail Deyev">
-        <createTable tableName="projects">
+
+    <!-- Answer Table-->
+    <changeSet id="create_answer_table" author="Mikhail Deyev">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="answer"/>
+            </not>
+        </preConditions>
+        <createTable tableName="answer">
             <column name="id" type="${uuid_type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="project_name" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
+            <column name="question_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isRight" type="boolean">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <!--    Employees Table-->
-    <changeSet id="3" author="Mikhail Deyev">
-        <createTable tableName="employees">
+    <!-- Question Table-->
+    <changeSet id="create_question_table" author="Mikhail Deyev">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="question"/>
+            </not>
+        </preConditions>
+        <createTable tableName="question">
             <column name="id" type="${uuid_type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="first_name" type="varchar(255)">
+            <column name="topic" type="varchar(255)"/>
+            <column name="ticket_id" type="${uuid_type}">
                 <constraints nullable="false"/>
-            </column>
-            <column name="last_name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="login" type="varchar(100)">
-                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <!--    Projects Employees relation Table-->
-    <changeSet id="4" author="Mikhail Deyev">
-        <createTable tableName="project_employee_relation">
-            <column name="employee_id" type="${uuid_type}">
-                <constraints nullable="false"/>
+    <!-- Ticket Table-->
+    <changeSet id="create_ticket_table" author="Mikhail Deyev">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ticket"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ticket">
+            <column name="id" type="${uuid_type}">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="project_id" type="${uuid_type}">
-                <constraints nullable="false"/>
-            </column>
+            <column name="number" type="integer"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="project_employee_relation" baseColumnNames="project_id"
-                                 constraintName="projects_relation" referencedTableName="projects"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="project_employee_relation" baseColumnNames="employee_id"
-                                 constraintName="employees_relation" referencedTableName="employees"
-                                 referencedColumnNames="id"/>
     </changeSet>
-
 </databaseChangeLog>
