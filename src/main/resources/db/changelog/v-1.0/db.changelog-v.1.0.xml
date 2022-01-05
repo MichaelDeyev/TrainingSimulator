@@ -27,7 +27,7 @@
             <column name="text" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="isRight" type="boolean">
+            <column name="is_right" type="boolean">
                 <constraints nullable="false"/>
             </column>
         </createTable>
