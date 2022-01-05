@@ -1,19 +1,23 @@
 package com.deyevs.inc.trainingsimulator.model
 
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import javax.persistence.Table
 
 @Entity
+@Table(name = "ticket")
 data class Ticket(
     @Id
-    val id: UUID,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long,
 
     @Column
     val number: Int,
 
     @OneToMany(mappedBy = "ticket")
-    val questions: Set<Question>
+    val questions: Set<Question>?
 )

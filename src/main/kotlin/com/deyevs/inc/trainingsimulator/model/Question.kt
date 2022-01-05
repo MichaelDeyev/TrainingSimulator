@@ -1,32 +1,32 @@
 package com.deyevs.inc.trainingsimulator.model
 
-import org.hibernate.annotations.GenericGenerator
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.Table
 
 @Entity
+@Table(name = "question")
 data class Question(
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    val id: UUID,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long,
 
     @Column
     @Enumerated(EnumType.STRING)
-    val topic: Topic,
+    val topic: Topic?,
 
     @OneToMany(mappedBy = "question")
-    val answers: Set<Answer>,
+    val answers: Set<Answer>?,
 
     @ManyToOne
     @JoinColumn(name = "ticket_id")
-    val ticket: Ticket
+    val ticket: Ticket?
 )
