@@ -1,5 +1,7 @@
 package com.deyevs.inc.trainingsimulator.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -21,9 +23,13 @@ data class Question(
 
     @Column
     @Enumerated(EnumType.STRING)
-    val topic: Topic?,
+    val topic: Topic,
 
-    @OneToMany(mappedBy = "question")
+    @Column
+    val questionText: String,
+
+    @OneToMany(mappedBy = "question", cascade = [CascadeType.ALL])
+    @JsonBackReference
     val answers: Set<Answer>?,
 
     @ManyToOne

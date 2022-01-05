@@ -40,6 +40,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="topic" type="varchar(255)"/>
+            <column name="question_text" type="varchar(600)"/>
             <column name="ticket_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
