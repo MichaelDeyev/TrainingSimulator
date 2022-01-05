@@ -1,5 +1,6 @@
 package com.deyevs.inc.trainingsimulator.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -19,5 +20,6 @@ data class Ticket(
     val number: Int,
 
     @OneToMany(mappedBy = "ticket")
+    @JsonBackReference
     val questions: Set<Question>?
 )
