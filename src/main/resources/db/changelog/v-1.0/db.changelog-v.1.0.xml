@@ -5,11 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <property name="uuid_type" value="uuid" dbms="postgresql"/>
-    <property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
-    <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
-
-
     <!-- Answer Table-->
     <changeSet id="create_answer_table" author="Mikhail Deyev">
         <preConditions onFail="MARK_RAN">
@@ -18,10 +13,10 @@
             </not>
         </preConditions>
         <createTable tableName="answer">
-            <column name="id" type="${uuid_type}">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="question_id" type="${uuid_type}">
+            <column name="question_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="text" type="varchar(512)">
@@ -41,11 +36,11 @@
             </not>
         </preConditions>
         <createTable tableName="question">
-            <column name="id" type="${uuid_type}">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="topic" type="varchar(255)"/>
-            <column name="ticket_id" type="${uuid_type}">
+            <column name="ticket_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -59,7 +54,7 @@
             </not>
         </preConditions>
         <createTable tableName="ticket">
-            <column name="id" type="${uuid_type}">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="number" type="integer"/>
